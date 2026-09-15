@@ -2,6 +2,7 @@
 const strands={numbers:'Liczby',operations:'Działania',fractions:'Ułamki i części',geometry:'Pomiar, geometria i dane'};
 const L=(id,grade,strand,title,intro,steps,example,make)=>({id,grade,strand,title,intro,steps,example,make});
 const rnd=(lo,hi)=>lo+Math.floor(Math.random()*(hi-lo+1));
+const polishPlural=(n,one,few,many)=>n===1?one:(n>=2&&n<=4?few:many);
 const Q=(prompt,answer,explain,hint,kind='number')=>({prompt,answer:String(answer),explain,hint,kind});
 const count=(label,a,b)=>Q(`${label}: ${a} + ${b} = ?`,a+b,`Najpierw mamy ${a}. Dokładamy ${b}. Razem jest ${a+b}.`,`Policz od ${a} jeszcze ${b} kroków.`);
 const sub=(a,b)=>Q(`${a} − ${b} = ?`,a-b,`Zaczynamy od ${a}. Zabieramy ${b}. Zostaje ${a-b}.`,`Możesz policzyć wstecz lub sprawdzić: ile dodać do ${b}, aby otrzymać ${a}?`);
@@ -34,7 +35,7 @@ L('g2',2,'geometry','Centymetry i godziny','Centymetr jest jednostką długości
  ['Odcinek zaczyna się przy 0 cm i kończy przy 8 cm.','Od 0 do 8 są osiem jednolicentymetrowych odcinków.','Długość wynosi 8 cm, a nie 9 cm: liczymy odstępy, nie kreski.'],()=>{let a=rnd(2,12),b=rnd(1,8);return Q(`Wstążka ma ${a} cm. Doklejamy ${b} cm. Ile cm ma teraz?`,a+b,`Łączymy długości: ${a} cm + ${b} cm = ${a+b} cm.`,'Dodaj długości i zachowaj jednostkę cm.')}),
 L('n3',3,'numbers','Setki, dziesiątki, jedności','Każde miejsce w liczbie jest dziesięć razy większe od miejsca po jego prawej stronie.',
  ['Cyfra setek oznacza grupy po 100.','Cyfra dziesiątek oznacza grupy po 10.','Cyfra jedności oznacza pojedyncze sztuki.','Dodaj wartości trzech miejsc.'],
- ['W liczbie 326 mamy 3 setki = 300.','Mamy 2 dziesiątki = 20 i 6 jedności = 6.','300 + 20 + 6 = 326. Cyfra 2 nie oznacza 2, lecz 20.'],()=>{let a=rnd(1,8),b=rnd(0,9),c=rnd(0,9);return Q(`Ile wynosi ${a} setek, ${b} dziesiątek i ${c} jedności?`,100*a+10*b+c,`${a}×100=${a*100}; ${b}×10=${b*10}; +${c}. Razem ${100*a+10*b+c}.`,'Zapisz setki, dziesiątki i jedności osobno.')}),
+ ['W liczbie 326 mamy 3 setki = 300.','Mamy 2 dziesiątki = 20 i 6 jedności = 6.','300 + 20 + 6 = 326. Cyfra 2 nie oznacza 2, lecz 20.'],()=>{let a=rnd(1,8),b=rnd(0,9),c=rnd(0,9);return Q(`Ile wynosi ${a} ${polishPlural(a,'setka','setki','setek')}, ${b} ${polishPlural(b,'dziesiątka','dziesiątki','dziesiątek')} i ${c} ${polishPlural(c,'jedność','jedności','jedności')}?`,100*a+10*b+c,`${a} × 100 = ${a*100}; ${b} × 10 = ${b*10}; + ${c}. Razem ${100*a+10*b+c}.`,'Zapisz setki, dziesiątki i jedności osobno.')}),
 L('o3',3,'operations','Mnożenie jako równe grupy','Mnożenie pomaga szybko policzyć kilka jednakowych grup. 4 × 3 to CZTERY grupy po TRZY.',
  ['Narysuj tyle grup, ile mówi pierwsza liczba.','W każdej grupie umieść tyle rzeczy, ile mówi druga liczba.','Dodaj grupy albo użyj tabliczki mnożenia.'],
  ['4 × 3 oznacza 4 grupy po 3: ●●● | ●●● | ●●● | ●●●.','Dodajemy: 3 + 3 + 3 + 3 = 12.','Dlatego 4 × 3 = 12. Sprawdź, licząc wszystkie kropki.'],()=>mult(rnd(2,9),rnd(2,9))),
